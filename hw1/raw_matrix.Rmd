@@ -1,0 +1,165 @@
+---
+title: "HW1"
+author: "Ali Arslan"
+date: "2025-09-28"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+```
+
+## R Markdown
+
+This is an R Markdown document. Markdown is a simple formatting syntax for authoring HTML, PDF, and MS Word documents. For more details on using R Markdown see <http://rmarkdown.rstudio.com>.
+
+When you click the **Knit** button a document will be generated that includes both content as well as the output of any embedded R code chunks within the document. You can embed an R code chunk like this:
+
+```{r 1 raw_matrix read , find mean and standrd deviation}
+
+su = read.delim("Su_raw_matrix.txt")
+m = mean(su$Liver_2.CEL)
+standartd = sd(su$Liver_2.CEL)
+print(standartd)
+print(m)
+
+
+
+```
+
+
+```{r 2_a }
+#create a data set mean=0, sigma=0.2
+dl1 = rnorm(10000,mean = 0 , sd = 0.2)
+ggplot(data.frame(dl1), aes(x = dl1)) + geom_histogram(fill = "skyblue", color = "black")+xlim(-5, 5)
+
+```
+```{r 2_b }
+#create a data set mean=0, sigma=0.2
+dl1 = rnorm(10000,mean = 0 , sd = 0.5)
+ggplot(data.frame(dl1), aes(x = dl1)) + geom_histogram(fill = "skyblue", color = "black")+xlim(-5, 5)
+```
+
+
+The heights of the bars on the y-axis decrease, indicating that the frequency within certain intervals is lower. On the x-axis, we observe that the range of the distribution is wider, meaning that the data are more diverse and spread over a larger area.
+
+
+```{r 3_a}
+dat=data.frame(cond = factor(rep(c("A","B"), each=200)),rating = c(rnorm(200),rnorm(200, mean=.8)))
+```
+
+```{r 3_b}
+# Overlaid histograms
+ggplot(dat, aes(x=rating, fill=cond)) + geom_histogram(binwidth=.5, alpha=.5, position="identity")
+
+```
+
+
+```{r 3_c}
+# Interleaved histograms
+ggplot(dat, aes(x=rating, fill=cond)) + geom_histogram(binwidth=.5, position="dodge")
+
+
+```
+
+```{r 3_d}
+# Density plots
+ggplot(dat, aes(x=rating, colour=cond)) + geom_density()
+
+```
+
+```{r 3_e}
+# Density plots with semitransparent fill
+ggplot(dat, aes(x=rating, fill=cond)) + geom_density(alpha=.3)
+
+
+```
+
+```{r 3_f_Read_Data}
+# put data to diabetes variable 
+diabetes = read.csv("diabetes_train.csv")
+
+```
+
+```{r 3_f_Overlaid_histograms}
+# Overlaid histograms
+ggplot(diabetes, aes(x = mass, fill = class)) + geom_histogram(binwidth=.5, alpha=.5, position="identity")
+
+```
+
+```{r 3_f_Interleaved_histograms}
+# Interleaved histograms
+ggplot(diabetes, aes(x=mass, fill=class)) + geom_histogram(binwidth=.5, position="dodge")
+
+```
+
+```{r 3_f_Density_plots}
+# Density plots
+ggplot(diabetes, aes(x=mass, colour=class)) + geom_density()
+
+```
+
+```{r 3_f_Density_plots2}
+# Density plots with semitransparent fill
+ggplot(diabetes, aes(x=mass, fill=class)) + geom_density(alpha=.3)
+
+```
+
+```{r 4_Read_file}
+passengers = read.csv("titanic.csv")
+head(passengers)
+
+```
+
+```{r 4_a}
+passengers %>% drop_na() %>% summary()
+#this code deletes empty rows from passenger data set and gets summary
+
+
+
+```
+
+```{r 4_b}
+passengers %>% filter(Sex == "male")
+#this filters data and get only male passengers
+
+```
+
+
+```{r 4_c}
+passengers %>% arrange(desc(Fare))
+#this order list according to fare from bigger to lower
+
+```
+
+
+
+
+```{r 4_d}
+passengers %>% mutate(FamSize = Parch + SibSp)
+
+#this code add new column name FamSize and calculate value to Parch  and SibSp addition
+
+```
+
+```{r 4_e}
+passengers %>% group_by(Sex) %>% summarise(meanFare = mean(Fare), numSurv = sum(Survived))
+#This Code goroup data by Sex attribute and gets sumary of Fare and Survu=ived and [ut them in new column meanFare numSurv
+
+```
+
+
+
+```{r 5}
+quantile(diabetes$skin, probs = c(0.10, 0.30, 0.50, 0.60), na.rm = TRUE)
+
+```
+
+
+
+
+
+
