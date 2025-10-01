@@ -1,0 +1,27 @@
+---
+title: "Lab5_Ali_Arslan"
+author: "Ali Arslan"
+date: "2025-10-01"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+library(ggplot2)
+library(tidyr)
+library(dplyr)
+```
+
+
+```{r getdata_linear_regression}
+
+data(iris)
+
+mydata = iris %>% filter(Species == "virginica")
+
+lm_model = lm(Sepal.Length ~ Sepal.Width , data = mydata)
+summary(lm_model)
+plot(mydata$Sepal.Width , mydata$Sepal.Length, pch = 19 , col="blue" , xlab="Sepal Width" , ylab = "Sepal Length" , main="Linear Regression : Lenth ~ Width") 
+abline(lm_model, col="red" , lwd=2)
+
+```
